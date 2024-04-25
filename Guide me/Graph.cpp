@@ -21,11 +21,11 @@ bool TravelMethod::operator<(const TravelMethod& t2) const
 
 void Graph::deletePath(string country1, string country2, string methodName)
 {
-    unordered_map<string, set<pair<string, TravelMethod>>>::iterator it1 = map.find(country1);
-    unordered_map<string, set<pair<string, TravelMethod>>>::iterator it2 = map.find(country2);
-    if (it1 == map.end() || it2 == map.end())
+    unordered_map<string, set<pair<string, TravelMethod>>>::iterator it1 = graph.find(country1);
+    unordered_map<string, set<pair<string, TravelMethod>>>::iterator it2 = graph.find(country2);
+    if (it1 == graph.end() || it2 == graph.end())
     {
-        cout << "the country not found\n";
+        //cout << "the country not found\n";
         return;
     }
     set<pair<string, TravelMethod>>& edges1 = it1->second;
@@ -54,11 +54,11 @@ void Graph::deletePath(string country1, string country2, string methodName)
 
     if (found)
     {
-        cout << "Path between " << country1 << " and " << country2 << " with method " << methodName << " deleted successfully\n";
+       // cout << "Path between " << country1 << " and " << country2 << " with method " << methodName << " deleted successfully\n";
     }
     else
     {
-        cout << "Path between " << country1 << " and " << country2 << " with method " << methodName << " not found\n";
+       // cout << "Path between " << country1 << " and " << country2 << " with method " << methodName << " not found\n";
     }
 
 }
@@ -66,18 +66,18 @@ void Graph::deletePath(string country1, string country2, string methodName)
 bool Graph::isComplete()  
 {
 
-    if (map.empty()) {
-        cout << "Graph is empty\n";
+    if (graph.empty()) {
+      //  cout << "Graph is empty\n";
         return false;
     }
 
-    int nodesNumber = map.size();
+    int nodesNumber = graph.size();
     
-    for (auto& it : map) {
+    for (auto& it : graph) {
         string country = it.first;
         set<pair<string, TravelMethod>>& edges = it.second;
         int edgeCount = edges.size();
-        cout << "Country " << country << " has " << edgeCount << " edges\n";
+       // cout << "Country " << country << " has " << edgeCount << " edges\n";
         if (edgeCount != (nodesNumber - 1))
         {
             return false;
@@ -86,3 +86,76 @@ bool Graph::isComplete()
     return true;
 }
 
+
+unordered_map<string, vector<pair<string, TravelMethod>>> Graph::BFS(map<string, vector<pair<string, TravelMethod>>>& adjList, string startNode, map <string, bool> visited)
+{
+    unordered_map<string, vector<pair<string, TravelMethod>>> path;
+    queue<string> q;
+    visited[startNode] = true;
+    q.push(startNode);
+
+    while (!q.empty()) {
+        string currentNode = q.front();
+        q.pop();
+        for (auto neighbor : adjList[currentNode]) {
+            if (!visited[neighbor.second.name]) {
+                visited[neighbor.second.name] = true;
+                q.push(neighbor.second.name);
+            }
+        }
+    }
+    return path;
+}
+unordered_map<string, vector<pair<string, TravelMethod>>> Graph::DFS(map<string, vector<pair<string, TravelMethod>>>& adjList, string  startNode, map <string, bool> visited) {
+
+    unordered_map<string, vector<pair<string, TravelMethod>>>path;
+    stack<string> s;
+    s.push(startNode);
+    visited[startNode] = true;
+
+    while (!s.empty()) {
+        string currentNode = s.top();
+        TravelMethod method;
+        s.pop();
+        for (auto neighbor : adjList[currentNode]) {
+            if (!visited[neighbor.second.name]) {
+                method = neighbor.second;
+                s.push(neighbor.second.name);
+                visited[neighbor.second.name] = true;
+            }
+        }
+        path[startNode].push_back({ currentNode ,method });
+
+    }
+    return path;
+}
+
+
+void Graph::deleteCountry(string country) {
+    for (auto city : graph[country]) {
+        for (auto x : graph[city.first]) {
+            if (x.first == country) graph[x.first].erase(x);
+        }
+    }
+    auto it = graph.find(country);
+    if (it != graph.end())  graph.erase(it);
+}
+unordered_map<string, set<pair<string, TravelMethod>>> graph;
+void Graph::updatePath(string country1, string country2, string methodName, string newmethodName, int newCost) {
+    int oldCost;
+    for (auto x : graph[country1]) {
+        if (x.first == country2 && x.second.name == methodName) {
+            oldCost = x.second.cost;
+            x.second.name = newmethodName;
+            x.second.cost = newCost;
+        }
+    }
+    TravelMethod way;
+    way.name = methodName;
+    way.cost = oldCost;
+    set<pair<string, TravelMethod>>::iterator it;
+    it = graph[country2].find({ country1,way });
+    it->second.name == newmethodName;
+    it->second.cost == newCost;
+
+}
