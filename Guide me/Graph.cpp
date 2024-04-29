@@ -21,31 +21,31 @@ bool TravelMethod::operator<(const TravelMethod& t2) const
 
 void Graph::deletePath(string country1, string country2, string methodName)
 {
-    unordered_map<string, set<pair<string, TravelMethod>>>::iterator it1 = graph.find(country1);
-    unordered_map<string, set<pair<string, TravelMethod>>>::iterator it2 = graph.find(country2);
+    unordered_map<string, set<pair<TravelMethod, string>>>::iterator it1 = graph.find(country1);
+    unordered_map<string, set<pair<TravelMethod, string>>>::iterator it2 = graph.find(country2);
     if (it1 == graph.end() || it2 == graph.end())
     {
         //cout << "the country not found\n";
         return;
     }
-    set<pair<string, TravelMethod>>& edges1 = it1->second;
-    set<pair<string, TravelMethod>>& edges2 = it2->second;
+    set<pair<TravelMethod, string>>& edges1 = it1->second;
+    set<pair<TravelMethod, string>>& edges2 = it2->second;
 
     bool found = false;
     // Search for a specific path in edges1 and remove it
-    
+
     for (auto& it : edges1) {
-        if (it.first == country2 && it.second.name == methodName)
+        if (it.second == country2 && it.first.name == methodName)
         {
             edges1.erase(it);
             found = true;
             break;
         }
     }
-   
+
     // Search for the specific path in edges2 and remove it
     for (auto& it : edges2) {
-        if (it.first == country1 && it.second.name == methodName)
+        if (it.second == country1 && it.first.name == methodName)
         {
             edges2.erase(it);
             break;
@@ -54,42 +54,32 @@ void Graph::deletePath(string country1, string country2, string methodName)
 
     if (found)
     {
-       // cout << "Path between " << country1 << " and " << country2 << " with method " << methodName << " deleted successfully\n";
+        // cout << "Path between " << country1 << " and " << country2 << " with method " << methodName << " deleted successfully\n";
     }
     else
     {
-       // cout << "Path between " << country1 << " and " << country2 << " with method " << methodName << " not found\n";
+        // cout << "Path between " << country1 << " and " << country2 << " with method " << methodName << " not found\n";
     }
 
 }
 
-bool Graph::isComplete()  
+bool Graph::isComplete()
 {
-
-    if (graph.empty()) {
-      //  cout << "Graph is empty\n";
-        return false;
-    }
-
-    int nodesNumber = graph.size();
-    
-    for (auto& it : graph) {
-        string country = it.first;
-        set<pair<string, TravelMethod>>& edges = it.second;
-        int edgeCount = edges.size();
-       // cout << "Country " << country << " has " << edgeCount << " edges\n";
-        if (edgeCount != (nodesNumber - 1))
-        {
-            return false;
+    for (auto node : graph) {
+        unordered_map<string, bool>isNeighbor;
+        for (auto neighbor : node.second)
+            isNeighbor[neighbor.second] = true;
+        for (auto node2 : graph) {
+            if (node.first != node2.first && !isNeighbor[node2.first])
+                return false;
         }
     }
     return true;
 }
 
-
-unordered_map<string, vector<pair<string, TravelMethod>>> Graph::BFS(map<string, vector<pair<string, TravelMethod>>>& adjList, string startNode, map <string, bool> visited)
+unordered_map<string, vector<pair<TravelMethod, string>>> Graph::BFS(map<string, vector<pair<TravelMethod, string>>>& adjList, string startNode, map <string, bool> visited)
 {
-    unordered_map<string, vector<pair<string, TravelMethod>>> path;
+    unordered_map<string, vector<pair<TravelMethod, string>>> path;
     queue<string> q;
     visited[startNode] = true;
     q.push(startNode);
@@ -98,17 +88,18 @@ unordered_map<string, vector<pair<string, TravelMethod>>> Graph::BFS(map<string,
         string currentNode = q.front();
         q.pop();
         for (auto neighbor : adjList[currentNode]) {
-            if (!visited[neighbor.second.name]) {
-                visited[neighbor.second.name] = true;
-                q.push(neighbor.second.name);
+            if (!visited[neighbor.first.name]) {
+                visited[neighbor.first.name] = true;
+                q.push(neighbor.first.name);
             }
         }
     }
     return path;
 }
-unordered_map<string, vector<pair<string, TravelMethod>>> Graph::DFS(map<string, vector<pair<string, TravelMethod>>>& adjList, string  startNode, map <string, bool> visited) {
 
-    unordered_map<string, vector<pair<string, TravelMethod>>>path;
+unordered_map<string, vector<pair<TravelMethod, string>>> Graph::DFS(map<string, vector<pair<TravelMethod, string>>>& adjList, string  startNode, map <string, bool> visited) {
+
+    unordered_map<string, vector<pair<TravelMethod, string>>>path;
     stack<string> s;
     s.push(startNode);
     visited[startNode] = true;
@@ -118,13 +109,13 @@ unordered_map<string, vector<pair<string, TravelMethod>>> Graph::DFS(map<string,
         TravelMethod method;
         s.pop();
         for (auto neighbor : adjList[currentNode]) {
-            if (!visited[neighbor.second.name]) {
-                method = neighbor.second;
-                s.push(neighbor.second.name);
-                visited[neighbor.second.name] = true;
+            if (!visited[neighbor.first.name]) {
+                method = neighbor.first;
+                s.push(neighbor.first.name);
+                visited[neighbor.first.name] = true;
             }
         }
-        path[startNode].push_back({ currentNode ,method });
+        path[startNode].push_back({ method ,currentNode });
 
     }
     return path;
@@ -133,29 +124,63 @@ unordered_map<string, vector<pair<string, TravelMethod>>> Graph::DFS(map<string,
 
 void Graph::deleteCountry(string country) {
     for (auto city : graph[country]) {
-        for (auto x : graph[city.first]) {
-            if (x.first == country) graph[x.first].erase(x);
+        for (auto x : graph[city.second]) {
+            if (x.second == country) graph[x.second].erase(x);
         }
     }
     auto it = graph.find(country);
     if (it != graph.end())  graph.erase(it);
 }
-unordered_map<string, set<pair<string, TravelMethod>>> graph;
+unordered_map<string, set<pair<TravelMethod, string>>> graph;
 void Graph::updatePath(string country1, string country2, string methodName, string newmethodName, int newCost) {
     int oldCost;
     for (auto x : graph[country1]) {
-        if (x.first == country2 && x.second.name == methodName) {
-            oldCost = x.second.cost;
-            x.second.name = newmethodName;
-            x.second.cost = newCost;
+        if (x.second == country2 && x.first.name == methodName) {
+            oldCost = x.first.cost;
+            x.first.name = newmethodName;
+            x.first.cost = newCost;
         }
     }
     TravelMethod way;
     way.name = methodName;
     way.cost = oldCost;
-    set<pair<string, TravelMethod>>::iterator it;
-    it = graph[country2].find({ country1,way });
-    it->second.name == newmethodName;
-    it->second.cost == newCost;
+    set<pair<TravelMethod, string>>::iterator it;
+    it = graph[country2].find({ way ,country1 });
+    it->first.name == newmethodName;
+    it->first.cost == newCost;
 
+}
+
+void Graph::addCountry(string country)
+{
+    graph[country] = {};
+}
+
+void Graph::addPath(string country1, string country2, string methodName, int cost)
+{
+    TravelMethod travelMethod(methodName, cost);
+    graph[country1].insert(make_pair(travelMethod, country2));
+    graph[country2].insert(make_pair(travelMethod, country1));
+}
+
+set<pair<long, list<pair<TravelMethod, string>>>> Graph::getPaths(string country1, string country2, long cost, unordered_map<string, bool>visited)
+{
+    if (country1 == country2)
+        return { make_pair(0, list< pair<TravelMethod, string>>()) };
+    visited[country1] = true;
+    set<pair<long, list<pair<TravelMethod, string>>>>allPaths;
+    for (pair<TravelMethod, string> neighbor : graph[country1]) {
+        if (visited[neighbor.second] || cost < neighbor.first.cost)
+            continue;
+        set<pair<long, list<pair<TravelMethod, string>>>> miniPaths;
+        miniPaths = getPaths(neighbor.second, country2, cost - neighbor.first.cost, visited);
+        for (pair<long, list<pair<TravelMethod, string>>> path : miniPaths)
+        {
+            path.first += neighbor.first.cost;
+            path.second.push_front(neighbor);
+            allPaths.insert(path);
+        }
+    }
+    visited[country1] = false;
+    return allPaths;
 }
