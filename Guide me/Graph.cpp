@@ -69,10 +69,7 @@ bool Graph::isComplete()
         unordered_map<string, bool>isNeighbor;
         for (auto neighbor : node.second)
             isNeighbor[neighbor.second] = true;
-        for (auto node2 : graph) {
-            if (node.first != node2.first && !isNeighbor[node2.first])
-                return false;
-        }
+        if (isNeighbor.size() != graph.size() - 1) return false;
     }
     return true;
 }
