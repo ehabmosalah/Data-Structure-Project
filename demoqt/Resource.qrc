@@ -1,7 +1,0 @@
-<RCC>
-    <qresource prefix="/new/prefix1">
-        <file>images/abstract-luxury-gradient-blue-background-smooth-dark-blue-with-black-vignette-studio-banner.jpg</file>
-        <file>images/background.jpg</file>
-        <file>images/Owl-Wallpaper-4k.jpg</file>
-    </qresource>
-</RCC>
