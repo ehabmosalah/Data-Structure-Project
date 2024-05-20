@@ -30,7 +30,7 @@
 
 # About The Project
 
-![Graph Image](Main_window.png)
+![Graph Image](Guide_me/Main_window.png)
 
 This comprehensive and feature-rich system is designed to streamline the process of planning travel routes between countries, offering both users and administrators an intuitive and efficient platform. With functionalities ranging from adding and deleting countries and travel paths to searching for paths between countries with specific constraints, this system aims to provide a seamless experience for both travelers and administrators.
 
@@ -80,40 +80,40 @@ This comprehensive and feature-rich system is designed to streamline the process
 
 ## Input and Output Scenarios:
 ### **Add Country**
-![Add Country](Add_country.png)
+![Add Country](Guide_me/Add_country.png)
   * **Input:** User enters the `Country` name
   * **Output:** Adds a new country to the graph
 
 ### **Add Path**
-![Add Path](Add_path.png)
+![Add Path](Guide_me/Add_path.png)
   * **Input:** User enters `Country 1`, `Country 2`, `Cost`, and `Transportation Method`
   * **Output:** Adds a new path between the entered countries
 
 ### **Delete Country**
-![Delete Country Image](Delete_country.png)
+![Delete Country Image](Guide_me/Delete_country.png)
   * **Input:** User enters the `Country` name
   * **Output:** Deletes the country from the graph
 
 ### **Delete Path**
-![Delete Path Image](Delete_path.png)
+![Delete Path Image](Guide_me/Delete_path.png)
   * **Input:** User enters `Country 1`, `Country 2`, and `Transportation Method`
   * **Output:** Deletes the path between the entered countries
 
 ### **Update Path**
-![Update Path Image](Update_path.png)
+![Update Path Image](Guide_me/Update_path.png)
   * **Input:** User enters `Country 1`, `Country 2`, `Old Transportation Method`, `New Transportation Method`, and `New Cost`
   * **Output:** Updates the path between the entered countries
 
 ### **Graph Info**
-![Graph Info Image](Graph_info.png)
+![Graph Info Image](Guide_me/Graph_info.png)
   * **Output:** Displays all countries in the graph
 
 ### **Get Paths**
-![Get Paths Image](Get_paths.png)
+![Get Paths Image](Guide_me/Get_paths.png)
 * **Input:** User enters `Country 1` and `Country 2`
 * **Output:** Displays all paths between the entered countries within the maximum cost
 
-![Map Traverse Image](Map_traverse.png)
+![Map Traverse Image](Guide_me/Map_traverse.png)
 ### **Traverse**
 * **Input:** User enters `Country 1` and `Country 2`
 * **Output:** Displays all paths between the entered countries, sorted by nearest first or farthest first from `Country 1`
