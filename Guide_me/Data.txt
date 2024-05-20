@@ -1,0 +1,5 @@
+cairo 1 Train 250 giza
+asuit 0
+giza 2 Train 250 cairo Train 250 dahab
+dahab 2 Train 250 benisuef Train 250 giza
+benisuef 1 Train 250 dahab
