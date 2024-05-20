@@ -4,7 +4,7 @@
 <br />
 <div align="center">
   <p align="center">
-    Travel Guide Project made for the OOP course at Faculty of Computer and Information Science, Ain Shams University.
+    Travel Guide Project made for the Data Structure Project course at Faculty of Computer and Information Science, Ain Shams University.
     <br />
     <br />
     <br />
