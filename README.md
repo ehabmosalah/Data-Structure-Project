@@ -2,9 +2,11 @@
 
 <a name="readme-top"></a>
 <br />
+
 <div align="center">
   <p align="center">
     Travel Guide Project made for the Data Structure Project course at Faculty of Computer and Information Science, Ain Shams University.
+    <br />
     <br />
     <br />
     <br />
@@ -36,8 +38,8 @@ This comprehensive and feature-rich system is designed to streamline the process
 
 ### Built With
 
-* [![C++][C++.js]][C++-url]
-* [![Qt][Qt.js]][Qt-url]
+- [![C++][C++.js]][C++-url]
+- [![Qt][Qt.js]][Qt-url]
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -46,6 +48,7 @@ This comprehensive and feature-rich system is designed to streamline the process
 ### Classes and Methods
 
 #### Travel Method
+
 - **Public Arguments:**
   - `String Name`: Name of Transportation
   - `int Cost`: Cost of Transportation
@@ -54,6 +57,7 @@ This comprehensive and feature-rich system is designed to streamline the process
   - Parameterized Constructor
 
 #### Graph
+
 - **Private Arguments:**
   - `unordered_map<string, set<pair<TravelMethod, string>>> Graph`: To save Graph
 - **Private Methods:**
@@ -79,49 +83,67 @@ This comprehensive and feature-rich system is designed to streamline the process
 # Usage
 
 ## Input and Output Scenarios:
+
 ### **Add Country**
+
 ![Add Country](Guide_me/Add_country.png)
-  * **Input:** User enters the `Country` name
-  * **Output:** Adds a new country to the graph
+
+- **Input:** User enters the `Country` name
+- **Output:** Adds a new country to the graph
 
 ### **Add Path**
+
 ![Add Path](Guide_me/Add_path.png)
-  * **Input:** User enters `Country 1`, `Country 2`, `Cost`, and `Transportation Method`
-  * **Output:** Adds a new path between the entered countries
+
+- **Input:** User enters `Country 1`, `Country 2`, `Cost`, and `Transportation Method`
+- **Output:** Adds a new path between the entered countries
 
 ### **Delete Country**
+
 ![Delete Country Image](Guide_me/Delete_country.png)
-  * **Input:** User enters the `Country` name
-  * **Output:** Deletes the country from the graph
+
+- **Input:** User enters the `Country` name
+- **Output:** Deletes the country from the graph
 
 ### **Delete Path**
+
 ![Delete Path Image](Guide_me/Delete_path.png)
-  * **Input:** User enters `Country 1`, `Country 2`, and `Transportation Method`
-  * **Output:** Deletes the path between the entered countries
+
+- **Input:** User enters `Country 1`, `Country 2`, and `Transportation Method`
+- **Output:** Deletes the path between the entered countries
 
 ### **Update Path**
+
 ![Update Path Image](Guide_me/Update_path.png)
-  * **Input:** User enters `Country 1`, `Country 2`, `Old Transportation Method`, `New Transportation Method`, and `New Cost`
-  * **Output:** Updates the path between the entered countries
+
+- **Input:** User enters `Country 1`, `Country 2`, `Old Transportation Method`, `New Transportation Method`, and `New Cost`
+- **Output:** Updates the path between the entered countries
 
 ### **Graph Info**
+
 ![Graph Info Image](Guide_me/Graph_info.png)
-  * **Output:** Displays all countries in the graph
+
+- **Output:** Displays all countries in the graph
 
 ### **Get Paths**
+
 ![Get Paths Image](Guide_me/Get_paths.png)
-* **Input:** User enters `Country 1` and `Country 2`
-* **Output:** Displays all paths between the entered countries within the maximum cost
+
+- **Input:** User enters `Country 1` and `Country 2`
+- **Output:** Displays all paths between the entered countries within the maximum cost
 
 ![Map Traverse Image](Guide_me/Map_traverse.png)
+
 ### **Traverse**
-* **Input:** User enters `Country 1` and `Country 2`
-* **Output:** Displays all paths between the entered countries, sorted by nearest first or farthest first from `Country 1`
+
+- **Input:** User enters `Country 1` and `Country 2`
+- **Output:** Displays all paths between the entered countries, sorted by nearest first or farthest first from `Country 1`
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+
 [C++.js]: https://img.shields.io/badge/C++-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white
 [C++-url]: https://www.cplusplus.com/
 [Qt.js]: https://img.shields.io/badge/Qt-41CD52?style=for-the-badge&logo=Qt&logoColor=white
